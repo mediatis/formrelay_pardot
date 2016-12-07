@@ -1,6 +1,6 @@
 plugin.tx_formrelay_pardot{
 	# cat=plugin.tx_formrelay_pardot//1; type=int+; label= Enable: Only convert to XML if not set to 0.
-    enabled = 0
+    enabled = 1
 
 	pardotUrl = 
 

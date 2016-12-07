@@ -68,7 +68,7 @@ plugin.tx_formrelay_pardot {
 			}
 		}
 
-		ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID
+		ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
 
 		values {
 			ignoreIfEmpty = 1

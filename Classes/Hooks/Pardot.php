@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediatis\Formrelay\DataProcessorInterface
 {
-
     protected function isEnabled()
     {
         return $this->conf['enabled'];
@@ -45,7 +44,7 @@ class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Media
         return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl']);
     }
 
-    protected function getTsKey()
+    public function getTsKey()
     {
         return "tx_formrelay_pardot";
     }

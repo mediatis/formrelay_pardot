@@ -41,7 +41,13 @@ class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Media
 
     protected function getDispatcher()
     {
-        return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl']);
+        $cookies = array();
+        foreach ($_COOKIE as $key => $value) {
+            if (preg_match('/^visitor_id[0-9]+$/', $key)) {
+                $cookies[$key] = $value;
+            }
+        }
+        return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl'], $cookies);
     }
 
     public function getTsKey()

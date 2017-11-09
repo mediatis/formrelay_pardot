@@ -1,0 +1,80 @@
+plugin.tx_formrelay_mail {
+
+	enabled = {$plugin.tx_formrelay_mail.enabled}
+
+	fields {
+		removeFieldNameParts =
+
+		validation {
+			required = email
+
+			validWithNoFilters = 1
+			# filters {
+			# 	1 {
+			# 		whitelist {
+			# 			country = us,ca
+			# 			inquiry_type = quote_request,product_information
+			# 		}
+			# 	}
+			# }
+		}
+
+		defaults {
+		}
+
+		mapping {
+			# form-field  -> mail-formhandler-field
+
+			salutation = salutation
+			first_name = split:first_name,last_name
+			last_name = last_name
+			email = email
+
+			company = company
+			department = department
+			address_one = address_one
+			address_two = address_two
+			zip = zip
+			city = city
+			state = state
+			territory = territory
+			country = country
+
+			website = website
+			phone = phone
+			fax = fax
+
+			job_title = job_title
+			years_in_business = years_in_business
+			annual_revenue = annual_revenue
+			employees = employees
+			industry = industry
+
+			do_not_email = do_not_email
+			do_not_call = do_not_call
+			opted_out = opted_out
+
+			source = source
+	 	}
+		mappingOther = concat:comments
+		specialMapping {
+			last_name {
+				valuesNot =
+				mapping {
+					first_name = first_name
+				}
+			}
+		}
+
+		ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
+
+		values {
+			ignoreIfEmpty = 1
+			mapping {
+			}
+		}
+	}
+
+	configurationOverwrite {
+	}
+}

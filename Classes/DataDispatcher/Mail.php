@@ -30,6 +30,7 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
 {
     protected $recipents;
     protected $sender;
+    protected $subject;
 
     /**
      * @var \TYPO3\CMS\Core\Mail\MailMessage
@@ -40,6 +41,7 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
     {
         $this->recipents = $recipents;
         $this->sender = $sender;
+        $this->subject = $subject;
         $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
     }
 

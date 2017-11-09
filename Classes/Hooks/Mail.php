@@ -41,13 +41,11 @@ class Mail extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediati
 
     protected function getDispatcher()
     {
-        $cookies = array();
-        foreach ($_COOKIE as $key => $value) {
-            if (preg_match('/^visitor_id[0-9]+$/', $key)) {
-                $cookies[$key] = $value;
-            }
-        }
-        return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl'], array(CURLOPT_COOKIE => $cookies));
+        $recipents = $this->conf['recipents'];
+        $sender =  $this->conf['sender'];
+        $subject  = $this->conf['subject'];
+
+        return new \Mediatis\FormrelayMail\DataDispatcher\Mail($recipents, $sender, $subject);
     }
 
     public function getTsKey()

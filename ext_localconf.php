@@ -4,4 +4,4 @@ if (!defined('TYPO3_MODE')) {
 }
 
 // register Hook to process data
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['formrelay']['dataProcessor'][] = 'Mediatis\\FormrelayPardot\\Hooks\\Mail';
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['formrelay']['dataProcessor'][] = 'Mediatis\\FormrelayMail\\Hooks\\Mail';

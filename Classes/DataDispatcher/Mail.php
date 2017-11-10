@@ -28,7 +28,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
 {
-    protected $recipents;
+    protected $recipients;
     protected $sender;
     protected $subject;
 
@@ -37,9 +37,9 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
      */
     protected $mailMessage;
 
-    public function __construct($recipents, $sender, $subject)
+    public function __construct($recipients, $sender, $subject)
     {
-        $this->recipents = $recipents;
+        $this->recipients = $recipients;
         $this->sender = $sender;
         $this->subject = $subject;
         $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
@@ -54,7 +54,7 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
         $this->mailMessage->setSubject($this->sanitizeHeaderString($this->subject));
         $this->mailMessage->setFrom($this->sanitizeHeaderString($this->sender));
 
-        $validEmails = $this->filterValidEmails($this->recipents);
+        $validEmails = $this->filterValidEmails($this->recipients);
         if (!empty($validEmails)) {
             $this->mailMessage->setTo($validEmails);
         }
@@ -74,7 +74,7 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
         $content = "";
 
         foreach ($data as $key => $value) {
-            $content .= $key. ' '. $value . '\n';
+            $content .= $key. '= '. $value .PHP_EOL;
         }
         return $content;
     }

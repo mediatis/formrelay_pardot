@@ -41,11 +41,11 @@ class Mail extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediati
 
     protected function getDispatcher()
     {
-        $recipents = $this->conf['recipents'];
+        $recipients = $this->conf['recipients'];
         $sender =  $this->conf['sender'];
         $subject  = $this->conf['subject'];
 
-        return new \Mediatis\FormrelayMail\DataDispatcher\Mail($recipents, $sender, $subject);
+        return new \Mediatis\FormrelayMail\DataDispatcher\Mail($recipients, $sender, $subject);
     }
 
     public function getTsKey()

@@ -45,7 +45,10 @@ class Mail extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediati
         $sender =  $this->conf['sender'];
         $subject  = $this->conf['subject'];
 
-        return new \Mediatis\FormrelayMail\DataDispatcher\Mail($recipients, $sender, $subject);
+        $valueDelimiter = $this->conf['valueDelimiter'];
+        $lineDelimiter = $this->conf['lineDelimiter'];
+
+        return new \Mediatis\FormrelayMail\DataDispatcher\Mail($recipients, $sender, $subject, $valueDelimiter, $lineDelimiter);
     }
 
     public function getTsKey()

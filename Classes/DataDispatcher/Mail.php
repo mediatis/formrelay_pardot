@@ -37,11 +37,16 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
      */
     protected $mailMessage;
 
-    public function __construct($recipients, $sender, $subject)
+    protected $valueDelimiter;
+    protected $lineDelimiter;
+
+    public function __construct($recipients, $sender, $subject, $valueDelimiter = '\s=\s', $lineDelimiter = '\n')
     {
         $this->recipients = $recipients;
         $this->sender = $sender;
         $this->subject = $subject;
+        $this->valueDelimiter = $valueDelimiter;
+        $this->lineDelimiter = $lineDelimiter;
         $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
     }
 
@@ -59,7 +64,7 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
             $this->mailMessage->setTo($validEmails);
         }
 
-        $plainContent = $this->getPlainTextContetn($data);
+        $plainContent = $this->getPlainTextContent($data);
         $this->mailMessage->setBody($plainContent, 'text/plain');
 
         if ($this->mailMessage->getTo() && $this->mailMessage->getBody()) {
@@ -69,12 +74,26 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
         return $retval;
     }
 
-    private function getPlainTextContetn($data)
+    protected function decodeDelimiter($delimiter)
     {
-        $content = "";
+        $map = array(
+            '\\s' => ' ',
+            '\\n' => PHP_EOL,
+        );
+        $result = $delimiter;
+        foreach ($map as $search => $replace) {
+            $result = str_replace($search, $replace, $result);
+        }
+        return $result;
+    }
 
+    protected function getPlainTextContent($data)
+    {
+        $valueDelimiter = $this->decodeDelimiter($this->valueDelimiter);
+        $lineDelimiter = $this->decodeDelimiter($this->lineDelimiter);
+        $content = '';
         foreach ($data as $key => $value) {
-            $content .= $key. '= '. $value .PHP_EOL;
+            $content .= $key . $valueDelimiter . $value . $lineDelimiter;
         }
         return $content;
     }

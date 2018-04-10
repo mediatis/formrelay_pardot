@@ -5,6 +5,9 @@ plugin.tx_formrelay_mail {
 	sender = {$plugin.tx_formrelay_mail.sender}
 	subject = {$plugin.tx_formrelay_mail.subject}
 
+	valueDelimiter = {$plugin.tx_formrelay_mail.valueDelimiter}
+	lineDelimiter = {$plugin.tx_formrelay_mail.lineDelimiter}
+
 	fields {
 		removeFieldNameParts =
 
@@ -28,7 +31,7 @@ plugin.tx_formrelay_mail {
 		mapping {
 	 	}
 
-		mappingOther = passthrough
+		mappingOther = passthrough:
 
 		specialMapping {
 		}

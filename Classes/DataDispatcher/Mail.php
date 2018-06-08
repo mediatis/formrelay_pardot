@@ -23,55 +23,17 @@ namespace Mediatis\FormrelayMail\DataDispatcher;
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-use TYPO3\CMS\Core\Mail\Rfc822AddressesParser;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
+class Mail extends AbstractMail
 {
-    protected $recipients;
-    protected $sender;
-    protected $subject;
-
-    /**
-     * @var \TYPO3\CMS\Core\Mail\MailMessage
-     */
-    protected $mailMessage;
-
     protected $valueDelimiter;
     protected $lineDelimiter;
 
     public function __construct($recipients, $sender, $subject, $valueDelimiter = '\s=\s', $lineDelimiter = '\n')
     {
-        $this->recipients = $recipients;
-        $this->sender = $sender;
-        $this->subject = $subject;
+        parent::__construct($recipients, $sender, $subject);
         $this->valueDelimiter = $valueDelimiter;
         $this->lineDelimiter = $lineDelimiter;
-        $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
-    }
-
-    public function send($data)
-    {
-        $retval = true;
-
-        GeneralUtility::devLog('Mediatis\\Formrelay\\DataDispatcher\\Mail::send()', __CLASS__, 0, $data);
-
-        $this->mailMessage->setSubject($this->sanitizeHeaderString($this->subject));
-        $this->mailMessage->setFrom($this->sanitizeHeaderString($this->sender));
-
-        $validEmails = $this->filterValidEmails($this->recipients);
-        if (!empty($validEmails)) {
-            $this->mailMessage->setTo($validEmails);
-        }
-
-        $plainContent = $this->getPlainTextContent($data);
-        $this->mailMessage->setBody($plainContent, 'text/plain');
-
-        if ($this->mailMessage->getTo() && $this->mailMessage->getBody()) {
-            $retval = $this->mailMessage->send();
-        }
-
-        return $retval;
     }
 
     protected function decodeDelimiter($delimiter)
@@ -98,50 +60,8 @@ class Mail implements \Mediatis\Formrelay\DataDispatcherInterface
         return $content;
     }
 
-    /**
-     * Checks string for suspicious characters
-     *
-     * @param string $string String to check
-     * @return string Valid or empty string
-     */
-    protected function sanitizeHeaderString($string)
+    protected function getHtmlContent($data)
     {
-        $pattern = '/[\\r\\n\\f\\e]/';
-        if (preg_match($pattern, $string) > 0) {
-            $this->dirtyHeaders[] = $string;
-            $string = '';
-        }
-        return $string;
-    }
-
-    /**
-     * Filter input-string for valid email addresses
-     *
-     * @param string $emails If this is a string, it will be checked for one or more valid email addresses.
-     * @return array List of valid email addresses
-     */
-    protected function filterValidEmails($emails)
-    {
-        if (!is_string($emails)) {
-            // No valid addresses - empty list
-            return [];
-        }
-
-        /** @var $addressParser Rfc822AddressesParser */
-        $addressParser = GeneralUtility::makeInstance(Rfc822AddressesParser::class, $emails);
-        $addresses = $addressParser->parseAddressList();
-
-        $validEmails = [];
-        foreach ($addresses as $address) {
-            $fullAddress = $address->mailbox . '@' . $address->host;
-            if (GeneralUtility::validEmail($fullAddress)) {
-                if ($address->personal) {
-                    $validEmails[$fullAddress] = $address->personal;
-                } else {
-                    $validEmails[] = $fullAddress;
-                }
-            }
-        }
-        return $validEmails;
+        return false;
     }
 }

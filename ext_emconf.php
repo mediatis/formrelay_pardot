@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Pardot Plugin',
     'description' => 'Send form data to Pardot via FormHandlers',
     'category' => 'be',
@@ -18,16 +18,17 @@ $EM_CONF[$_EXTKEY] = array(
     'clearCacheOnLoad' => 0,
     'lockType' => '',
     'author_company' => '',
-    'version' => '0.0.4',
-    'constraints' => array(
-        'depends' => array(
+    'version' => '1.0.1',
+    'constraints' => [
+        'depends' => [
             'formrelay' => '0.0.9',
-        ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
-        ),
-    ),
-    'suggests' => array(
-    ),
-);
+            'typo3' => '8.7.0-9.5.99',
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+    'suggests' => [
+    ],
+];

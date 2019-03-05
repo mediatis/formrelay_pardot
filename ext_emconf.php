@@ -32,7 +32,6 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '0.0.3',
     'constraints' => array(
         'depends' => array(
-            'cms' => '',
             'formrelay' => '0.0.9',
         ),
         'conflicts' => array(

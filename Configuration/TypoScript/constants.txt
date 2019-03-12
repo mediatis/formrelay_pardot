@@ -1,6 +1,6 @@
-plugin.tx_formrelay_mail{
+plugin.tx_formrelay_mail {
 	# cat=plugin.tx_formrelay_mail//1; type=int+; label= Enable: Only convert to XML if not set to 0.
-    enabled = 1
+	enabled = 1
 
 	# cat=plugin.tx_formrelay_mail//2; type=string; label= List of recipients
 	recipients = user@domain.com, user2@domain.com
@@ -15,7 +15,8 @@ plugin.tx_formrelay_mail{
 	lineDelimiter = \n
 
 	fields {
-	 	defaults {
+		defaults {
+
 		}
 	}
 }

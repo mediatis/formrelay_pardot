@@ -16,24 +16,27 @@ plugin.tx_formrelay_mail {
 
 			validWithNoFilters = 1
 			# filters {
-			# 	1 {
-			# 		whitelist {
-			# 			country = us,ca
-			# 			inquiry_type = quote_request,product_information
-			# 		}
-			# 	}
+			#    1 {
+			#        whitelist {
+			#            country = us,ca
+			#            inquiry_type = quote_request,product_information
+			#        }
+			#    }
 			# }
 		}
 
 		defaults {
+
 		}
 
 		mapping {
-	 	}
+
+		}
 
 		mappingOther = passthrough:
 
 		specialMapping {
+
 		}
 
 		ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
@@ -41,11 +44,13 @@ plugin.tx_formrelay_mail {
 		values {
 			ignoreIfEmpty = 1
 			mapping {
+
 			}
 		}
 	}
 
 	configurationOverwrite {
+
 	}
 
 }

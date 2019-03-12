@@ -1,82 +1,86 @@
 plugin.tx_formrelay_pardot {
 
-	enabled = {$plugin.tx_formrelay_pardot.enabled}
+  enabled = {$plugin.tx_formrelay_pardot.enabled}
 
-	pardotUrl = {$plugin.tx_formrelay_pardot.pardotUrl}
+  pardotUrl = {$plugin.tx_formrelay_pardot.pardotUrl}
 
-	fields {
-		removeFieldNameParts =
+  fields {
+    removeFieldNameParts =
 
-		validation {
-			required = email
+    validation {
+      required = email
 
-			validWithNoFilters = 1
-			# filters {
-			# 	1 {
-			# 		whitelist {
-			# 			country = us,ca
-			# 			inquiry_type = quote_request,product_information
-			# 		}
-			# 	}
-			# }
-		}
+      validWithNoFilters = 1
+      # filters {
+      #  1 {
+      #    whitelist {
+      #      country = us,ca
+      #      inquiry_type = quote_request,product_information
+      #    }
+      #  }
+      # }
+    }
 
-		defaults {
-		}
+    defaults {
 
-		mapping {
-			# form-field  -> pardot-formhandler-field
+    }
 
-			salutation = salutation
-			first_name = split:first_name,last_name
-			last_name = last_name
-			email = email
+    mapping {
+      # form-field  -> pardot-formhandler-field
 
-			company = company
-			department = department
-			address_one = address_one
-			address_two = address_two
-			zip = zip
-			city = city
-			state = state
-			territory = territory
-			country = country
+      salutation = salutation
+      first_name = split:first_name,last_name
+      last_name = last_name
+      email = email
 
-			website = website
-			phone = phone
-			fax = fax
+      company = company
+      department = department
+      address_one = address_one
+      address_two = address_two
+      zip = zip
+      city = city
+      state = state
+      territory = territory
+      country = country
 
-			job_title = job_title
-			years_in_business = years_in_business
-			annual_revenue = annual_revenue
-			employees = employees
-			industry = industry
+      website = website
+      phone = phone
+      fax = fax
 
-			do_not_email = do_not_email
-			do_not_call = do_not_call
-			opted_out = opted_out
+      job_title = job_title
+      years_in_business = years_in_business
+      annual_revenue = annual_revenue
+      employees = employees
+      industry = industry
 
-			source = source
-	 	}
-		mappingOther = concat:comments
-		specialMapping {
-			last_name {
-				valuesNot =
-				mapping {
-					first_name = first_name
-				}
-			}
-		}
+      do_not_email = do_not_email
+      do_not_call = do_not_call
+      opted_out = opted_out
 
-		ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
+      source = source
+    }
 
-		values {
-			ignoreIfEmpty = 1
-			mapping {
-			}
-		}
-	}
+    mappingOther = concat:comments
+    specialMapping {
+      last_name {
+        valuesNot =
+        mapping {
+          first_name = first_name
+        }
+      }
+    }
 
-	configurationOverwrite {
-	}
+    ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
+
+    values {
+      ignoreIfEmpty = 1
+      mapping {
+
+      }
+    }
+  }
+
+  configurationOverwrite {
+
+  }
 }

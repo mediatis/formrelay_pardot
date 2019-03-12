@@ -34,6 +34,11 @@ namespace Mediatis\FormrelayPardot\Hooks;
  */
 class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediatis\Formrelay\DataProcessorInterface
 {
+    public function getTsKey()
+    {
+        return "tx_formrelay_pardot";
+    }
+
     protected function isEnabled()
     {
         return $this->conf['enabled'];
@@ -48,10 +53,5 @@ class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Media
             }
         }
         return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl'], [CURLOPT_COOKIE => $cookies]);
-    }
-
-    public function getTsKey()
-    {
-        return "tx_formrelay_pardot";
     }
 }

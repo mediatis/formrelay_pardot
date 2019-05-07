@@ -1,22 +1,25 @@
 plugin.tx_formrelay_mail {
-	# cat=plugin.tx_formrelay_mail//1; type=int+; label= Enable: Only convert to XML if not set to 0.
-	enabled = 1
+  # cat=plugin.tx_formrelay_mail//1; type=int+; label= Enable: Only convert to XML if not set to 0.
+  enabled = 1
 
-	# cat=plugin.tx_formrelay_mail//2; type=string; label= List of recipients
-	recipients = user@domain.com, user2@domain.com
+  # cat=plugin.tx_formrelay_mail//2; type=string; label= List of recipients
+  recipients = user@domain.com, user2@domain.com
 
-	# cat=plugin.tx_formrelay_mail//3; type=string; label= send address
-	sender = website@domain.com
+  # cat=plugin.tx_formrelay_mail//3; type=string; label= send address
+  sender = website@domain.com
 
-	# cat=plugin.tx_formrelay_mail//4; type=string; label= subject of mail
-	subject = Mail from website
+  # cat=plugin.tx_formrelay_mail//4; type=string; label= subject of mail
+  subject = Mail from website
 
-	valueDelimiter = \s=\s
-	lineDelimiter = \n
+  # cat=plugin.tx_formrelay_mail//5; type=bool; label= If user uploaded attachments should be attached to the E-Mail
+  includeAttachmentsInMail = 0
 
-	fields {
-		defaults {
+  valueDelimiter = \s=\s
+  lineDelimiter = \n
 
-		}
-	}
+  fields {
+    defaults {
+
+    }
+  }
 }

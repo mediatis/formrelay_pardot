@@ -52,9 +52,10 @@ class Mail extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediati
 
         $valueDelimiter = $this->conf['valueDelimiter'];
         $lineDelimiter = $this->conf['lineDelimiter'];
+        $includeAttachmentsInMail = $this->conf['includeAttachmentsInMail'];
 
         return new \Mediatis\FormrelayMail\DataDispatcher\Mail(
-            $recipients, $sender, $subject, $valueDelimiter, $lineDelimiter
+            $recipients, $sender, $subject, $valueDelimiter, $lineDelimiter, $includeAttachmentsInMail
         );
     }
 }

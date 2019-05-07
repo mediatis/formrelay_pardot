@@ -29,9 +29,15 @@ class Mail extends AbstractMail
     protected $valueDelimiter;
     protected $lineDelimiter;
 
-    public function __construct($recipients, $sender, $subject, $valueDelimiter = '\s=\s', $lineDelimiter = '\n')
-    {
-        parent::__construct($recipients, $sender, $subject);
+    public function __construct(
+        $recipients,
+        $sender,
+        $subject,
+        $valueDelimiter = '\s=\s',
+        $lineDelimiter = '\n',
+        $includeAttachmentsInMail = false
+    ) {
+        parent::__construct($recipients, $sender, $subject, $includeAttachmentsInMail);
         $this->valueDelimiter = $valueDelimiter;
         $this->lineDelimiter = $lineDelimiter;
     }

@@ -33,21 +33,28 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
     protected $recipients;
     protected $sender;
     protected $subject;
+    protected $includeAttachmentsInMail;
 
     /**
      * @var \TYPO3\CMS\Core\Mail\MailMessage
      */
     protected $mailMessage;
 
-    public function __construct($recipients, $sender, $subject)
+    public function __construct($recipients, $sender, $subject, $includeAttachmentsInMail = false)
     {
         $this->recipients = $recipients;
         $this->sender = $sender;
         $this->subject = $subject;
+        $this->includeAttachmentsInMail = $includeAttachmentsInMail;
         $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
     }
 
-    public function send($data)
+    /**
+     * @param $data
+     * @param bool|array $attachments
+     * @return bool|int
+     */
+    public function send($data, $attachments = false)
     {
         $retval = true;
 
@@ -77,6 +84,15 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
             $this->mailMessage->setBody($plainContent, 'text/plain');
         }
 
+        if (!empty($attachments) && $this->includeAttachmentsInMail) {
+            foreach ($attachments as $attachment) {
+                try {
+                    $this->mailMessage->attach(\Swift_Attachment::fromPath($attachment));
+                } catch (\Exception $e) {
+                    // Do nothing. (Log somewhere?)
+                }
+            }
+        }
         if ($this->mailMessage->getTo() && $this->mailMessage->getBody()) {
             $retval = $this->mailMessage->send();
         }

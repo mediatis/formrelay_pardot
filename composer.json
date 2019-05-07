@@ -1,29 +1,30 @@
 {
-	"authors": [
-		{
-			"email": "voehringer@mediatis.de",
-			"homepage": "http://www.mediatis.de",
-			"name": "Michael Vöhringer",
-			"role": "Developer"
-		}
-	],
-	"autoload": {
-		"classmap": [
-			"Classes/"
-		],
-		"psr-4": {
-			"Mediatis\\FormrelayMail\\": "Classes/"
-		}
-	},
-	"license": "GPL-2.0+",
-	"name": "mediatis/formrelay-mail",
-	"replace": {
-		"mediatis/formrelay_mail": "self.version",
-		"typo3-ter/formrelay-mail": "self.version"
-	},
-	"require": {
-		"typo3/cms-core": "^7.6 | ^8.7 | ^9.5",
-		"mediatis/formrelay": ">=0.2.9"
-	},
-	"type": "typo3-cms-extension"
+  "authors": [
+    {
+      "email": "voehringer@mediatis.de",
+      "homepage": "http://www.mediatis.de",
+      "name": "Michael Vöhringer",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "Classes/"
+    ],
+    "psr-4": {
+      "Mediatis\\FormrelayMail\\": "Classes/"
+    }
+  },
+  "license": "GPL-2.0+",
+  "name": "mediatis/formrelay-mail",
+  "replace": {
+    "mediatis/formrelay_mail": "self.version",
+    "typo3-ter/formrelay-mail": "self.version"
+  },
+  "require": {
+    "typo3/cms-core": "^7.6 | ^8.7 | ^9.5",
+    "mediatis/formrelay": "^1.0.6"
+  },
+  "type": "typo3-cms-extension",
+  "description": "Mail delivery system based on Mediatis Formrelay"
 }

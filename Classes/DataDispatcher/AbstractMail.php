@@ -25,6 +25,9 @@ namespace Mediatis\FormrelayMail\DataDispatcher;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Mail\Rfc822AddressesParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,8 +38,11 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
     protected $subject;
     protected $includeAttachmentsInMail;
 
+    /** @var Logger */
+    protected $logger;
+
     /**
-     * @var \TYPO3\CMS\Core\Mail\MailMessage
+     * @var MailMessage
      */
     protected $mailMessage;
 
@@ -46,7 +52,8 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
         $this->sender = $sender;
         $this->subject = $subject;
         $this->includeAttachmentsInMail = $includeAttachmentsInMail;
-        $this->mailMessage = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\MailMessage::class);
+        $this->mailMessage = GeneralUtility::makeInstance(MailMessage::class);
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
@@ -89,7 +96,7 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
                 try {
                     $this->mailMessage->attach(\Swift_Attachment::fromPath($attachment));
                 } catch (\Exception $e) {
-                    // Do nothing. (Log somewhere?)
+                    $this->logError('Formrelay Mail Error: ' . $e->getMessage());
                 }
             }
         }
@@ -172,5 +179,10 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
             return $name . ' <' . $email . '>';
         }
         return $email;
+    }
+
+    protected function logError($message)
+    {
+        $this->logger->error($message);
     }
 }

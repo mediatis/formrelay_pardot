@@ -33,7 +33,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '7.6.0-9.5.99',
-            'formrelay' => '>=0.2.9',
+            'formrelay' => '>=2.0.0',
         ],
         'conflicts' => [
         ],

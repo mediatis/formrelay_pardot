@@ -1,57 +1,21 @@
 plugin.tx_formrelay_mail {
+    settings {
+        enabled = {$plugin.tx_formrelay_mail.settings.enabled}
 
-  enabled = {$plugin.tx_formrelay_mail.enabled}
-  recipients = {$plugin.tx_formrelay_mail.recipients}
-  sender = {$plugin.tx_formrelay_mail.sender}
-  subject = {$plugin.tx_formrelay_mail.subject}
-  includeAttachmentsInMail = {$plugin.tx_formrelay_mail.includeAttachmentsInMail}
+        recipients = {$plugin.tx_formrelay_mail.settings.recipients}
+        sender = {$plugin.tx_formrelay_mail.settings.sender}
+        subject = {$plugin.tx_formrelay_mail.settings.subject}
+        includeAttachmentsInMail = {$plugin.tx_formrelay_mail.settings.includeAttachmentsInMail}
 
-  valueDelimiter = {$plugin.tx_formrelay_mail.valueDelimiter}
-  lineDelimiter = {$plugin.tx_formrelay_mail.lineDelimiter}
+        valueDelimiter = {$plugin.tx_formrelay_mail.settings.valueDelimiter}
+        lineDelimiter = {$plugin.tx_formrelay_mail.settings.lineDelimiter}
 
-  fields {
-    removeFieldNameParts =
+        fields {
+            unmapped.passthrough = 1
+        }
 
-    validation {
-      required = email
-
-      validWithNoFilters = 1
-      # filters {
-      #    1 {
-      #        whitelist {
-      #            country = us,ca
-      #            inquiry_type = quote_request,product_information
-      #        }
-      #    }
-      # }
+        values {
+            ignoreIfEmpty = 1
+        }
     }
-
-    defaults {
-
-    }
-
-    mapping {
-
-    }
-
-    mappingOther = passthrough:
-
-    specialMapping {
-
-    }
-
-    ignore.value = html_enabled,subject,recipient,recipient_copy,submit,password,password_again,randomID,language
-
-    values {
-      ignoreIfEmpty = 1
-      mapping {
-
-      }
-    }
-  }
-
-  configurationOverwrite {
-
-  }
-
 }

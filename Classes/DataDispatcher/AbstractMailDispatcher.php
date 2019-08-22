@@ -2,49 +2,43 @@
 
 namespace Mediatis\FormrelayMail\DataDispatcher;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Michael Vöhringer (Mediatis AG) <voehringer@mediatis.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Mail\Rfc822AddressesParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use Mediatis\Formrelay\DataDispatcher\DataDispatcherInterface;
+use Mediatis\Formrelay\Domain\Model\FormField\UploadFormField;
 
-abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterface
+abstract class AbstractMailDispatcher implements DataDispatcherInterface
 {
+    /** @var ObjectManager */
+    protected $objectManager;
+
+    /** @var LogManager */
+    protected $logManager;
+
+    /** @var Logger */
+    protected $logger;
+
     protected $recipients;
     protected $sender;
     protected $subject;
     protected $includeAttachmentsInMail;
 
-    /** @var Logger */
-    protected $logger;
-
-    /**
-     * @var MailMessage
-     */
+    /** @var MailMessage */
     protected $mailMessage;
+
+    public function injectObjectManager(ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    public function injectLogManager(LogManager $logManager)
+    {
+        $this->logManager = $logManager;
+    }
 
     public function __construct($recipients, $sender, $subject, $includeAttachmentsInMail = false)
     {
@@ -52,8 +46,12 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
         $this->sender = $sender;
         $this->subject = $subject;
         $this->includeAttachmentsInMail = $includeAttachmentsInMail;
-        $this->mailMessage = GeneralUtility::makeInstance(MailMessage::class);
-        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+    }
+
+    public function initializeObject()
+    {
+        $this->logger = $this->logManager->getLogger(static::class);
+        $this->mailMessage = $this->objectManager->get(MailMessage::class);
     }
 
     /**
@@ -61,11 +59,11 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
      * @param bool|array $attachments
      * @return bool|int
      */
-    public function send($data, $attachments = false)
+    public function send(array $data): bool
     {
-        $retval = true;
+        $result = false;
 
-        GeneralUtility::devLog('Mediatis\\Formrelay\\DataDispatcher\\AbstractMail::send()', __CLASS__, 0, $data);
+        $this->logger->debug(static::class . '::send()', $data);
 
         $subject = $this->getSubject($data);
         $this->mailMessage->setSubject($this->sanitizeHeaderString($subject));
@@ -91,23 +89,25 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
             $this->mailMessage->setBody($plainContent, 'text/plain');
         }
 
-        if (!empty($attachments) && $this->includeAttachmentsInMail) {
-            foreach ($attachments as $attachment) {
-                try {
-                    $this->mailMessage->attach(\Swift_Attachment::fromPath($attachment));
-                } catch (\Exception $e) {
-                    $this->logError('Formrelay Mail Error: ' . $e->getMessage());
+        if ($this->includeAttachmentsInMail) {
+            foreach ($data as $field => $value) {
+                if ($value instanceof UploadFormField) {
+                    try {
+                        $this->mailMessage->attach(\Swift_Attachment::fromPath($value->getRelativePath()));
+                    } catch (\Exception $e) {
+                        $this->logger->error('Formrelay MailDispatcher Error: ' . $e->getMessage());
+                    }
                 }
             }
         }
         if ($this->mailMessage->getTo() && $this->mailMessage->getBody()) {
-            $retval = $this->mailMessage->send();
+            $result = $this->mailMessage->send();
         }
 
-        return $retval;
+        return $result;
     }
 
-    protected function getSubject($data)
+    protected function getSubject($data): string
     {
         return $this->subject;
     }
@@ -118,7 +118,7 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
      * @param string $string String to check
      * @return string Valid or empty string
      */
-    protected function sanitizeHeaderString($string)
+    protected function sanitizeHeaderString($string): string
     {
         $pattern = '/[\\r\\n\\f\\e]/';
         if (preg_match($pattern, $string) > 0) {
@@ -134,7 +134,7 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
      * @param string $emails If this is a string, it will be checked for one or more valid email addresses.
      * @return array List of valid email addresses
      */
-    protected function filterValidEmails($emails)
+    protected function filterValidEmails($emails): array
     {
         if (!is_string($emails)) {
             // No valid addresses - empty list
@@ -142,7 +142,7 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
         }
 
         /** @var $addressParser Rfc822AddressesParser */
-        $addressParser = GeneralUtility::makeInstance(Rfc822AddressesParser::class, $emails);
+        $addressParser = $this->objectManager->get(Rfc822AddressesParser::class, $emails);
         $addresses = $addressParser->parseAddressList();
 
         $validEmails = [];
@@ -159,30 +159,25 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
         return $validEmails;
     }
 
-    protected function getFrom($data)
+    protected function getFrom(array $data): string
     {
         return $this->sender;
     }
 
-    protected function getTo($data)
+    protected function getTo(array $data): string
     {
         return $this->recipients;
     }
 
-    abstract protected function getPlainTextContent($data);
+    abstract protected function getPlainTextContent(array $data): string;
 
-    abstract protected function getHtmlContent($data);
+    abstract protected function getHtmlContent(array $data): string;
 
-    protected function renderEmailAddress($email, $name = '')
+    protected function renderEmailAddress(string $email, string $name = ''): string
     {
         if ($name) {
             return $name . ' <' . $email . '>';
         }
         return $email;
-    }
-
-    protected function logError($message)
-    {
-        $this->logger->error($message);
     }
 }

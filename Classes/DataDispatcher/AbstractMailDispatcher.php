@@ -16,9 +16,6 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
     /** @var ObjectManager */
     protected $objectManager;
 
-    /** @var LogManager */
-    protected $logManager;
-
     /** @var Logger */
     protected $logger;
 
@@ -35,11 +32,6 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
         $this->objectManager = $objectManager;
     }
 
-    public function injectLogManager(LogManager $logManager)
-    {
-        $this->logManager = $logManager;
-    }
-
     public function __construct($recipients, $sender, $subject, $includeAttachmentsInMail = false)
     {
         $this->recipients = $recipients;
@@ -50,7 +42,8 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
 
     public function initializeObject()
     {
-        $this->logger = $this->logManager->getLogger(static::class);
+        $logManager = $this->objectManager->get(LogManager::class);
+        $this->logger = $logManager->getLogger(static::class);
         $this->mailMessage = $this->objectManager->get(MailMessage::class);
     }
 
@@ -107,7 +100,7 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
         return $result;
     }
 
-    protected function getSubject($data): string
+    protected function getSubject(array $data): string
     {
         return $this->subject;
     }
@@ -118,7 +111,7 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
      * @param string $string String to check
      * @return string Valid or empty string
      */
-    protected function sanitizeHeaderString($string): string
+    protected function sanitizeHeaderString(string $string): string
     {
         $pattern = '/[\\r\\n\\f\\e]/';
         if (preg_match($pattern, $string) > 0) {
@@ -173,7 +166,7 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
 
     abstract protected function getHtmlContent(array $data): string;
 
-    protected function renderEmailAddress(string $email, string $name = ''): string
+    protected function renderEmailAddress($email, $name = ''): string
     {
         if ($name) {
             return $name . ' <' . $email . '>';

@@ -1,0 +1,4 @@
+
+2.0.0
+
+[TASK] updated extension for EXT:formrelay 2.0 (#MEDO-241)

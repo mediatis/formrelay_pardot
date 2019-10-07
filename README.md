@@ -54,3 +54,7 @@ Default: `\n`.
 Set the separator between the different field-name-and-value-pairs.  
 `\s` will be translated to a space character.  
 `\n` will be translated to a line break.
+
+## Generating changelog
+- CHANGELOG.md must be generated together with every git release and commited together with ext_emconf.php.  
+`printf '%s\n%s\n' "$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --format=%B)" "$(cat CHANGELOG.txt)" > CHANGELOG.txt`

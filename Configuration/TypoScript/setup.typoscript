@@ -1,0 +1,54 @@
+plugin.tx_formrelay_pardot {
+  settings {
+    enabled = {$plugin.tx_formrelay_pardot.settings.enabled}
+
+    pardotUrl = {$plugin.tx_formrelay_pardot.settings.pardotUrl}
+
+    gate {
+      required = email
+    }
+
+    fields {
+      mapping {
+        # form-field  -> pardot-formhandler-field
+
+        source = source
+
+        salutation = salutation
+        first_name = first_name
+        last_name = last_name
+
+        email = email
+        phone = phone
+        fax = fax
+
+        company = company
+        industry = industry
+        department = department
+        job_title = job_title
+        website = website
+        annual_revenue = annual_revenue
+        years_in_business = years_in_business
+        employees = employees
+
+        address_one = address_one
+        address_two = address_two
+        zip = zip
+        city = city
+        state = state
+        country = country
+        territory = territory
+
+        is_do_not_call = is_do_not_call
+        is_do_not_email = is_do_not_email
+        opted_out = opted_out
+      }
+      unmapped = comments
+      unmapped.appendKeyValue = 1
+    }
+
+    values {
+      ignoreIfEmpty = 1
+    }
+  }
+}

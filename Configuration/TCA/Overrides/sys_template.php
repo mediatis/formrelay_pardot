@@ -3,9 +3,11 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    'formrelay_pardot',
-    'Configuration/TypoScript',
-    'FormRelay Pardot'
+call_user_func(
+    function ($extKey) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+            $extKey, 'Configuration/TypoScript', 'FormRelay Pardot'
+        );
+    },
+    'formrelay_pardot'
 );
-

@@ -57,7 +57,7 @@ class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Media
         // If disableCookieField is set and it's not empty then don't send cookies.
         $disableCookieField = $this->conf['disableCookieField'];
         if (empty($disableCookieField) ||
-            !in_array($disableCookieField, $this->data) ||
+            !isset($this->data[$disableCookieField]) ||
             empty($this->data[$disableCookieField])
         ) {
             foreach ($_COOKIE as $key => $value) {

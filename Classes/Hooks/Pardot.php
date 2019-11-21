@@ -34,24 +34,43 @@ namespace Mediatis\FormrelayPardot\Hooks;
  */
 class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Mediatis\Formrelay\DataProcessorInterface
 {
-    public function getTsKey()
-    {
-        return "tx_formrelay_pardot";
-    }
+    /**
+     * @var array
+     */
+    private $data = [];
 
     protected function isEnabled()
     {
         return $this->conf['enabled'];
     }
 
+    public function processData($data, $formSettings = false)
+    {
+        // Save data to be able to read it in getDispatcher()
+        $this->data = $data;
+        return parent::processData($data, $formSettings = false);
+    }
+
     protected function getDispatcher()
     {
         $cookies = [];
-        foreach ($_COOKIE as $key => $value) {
-            if (preg_match('/^visitor_id[0-9]+$/', $key)) {
-                $cookies[$key] = $value;
+        // If disableCookieField is set and it's not empty then don't send cookies.
+        $disableCookieField = $this->conf['disableCookieField'];
+        if (empty($disableCookieField) ||
+            !in_array($disableCookieField, $this->data) ||
+            empty($this->data[$disableCookieField])
+        ) {
+            foreach ($_COOKIE as $key => $value) {
+                if (preg_match('/^visitor_id[0-9]+$/', $key)) {
+                    $cookies[$key] = $value;
+                }
             }
         }
         return new \Mediatis\Formrelay\DataDispatcher\Curl($this->conf['pardotUrl'], [CURLOPT_COOKIE => $cookies]);
+    }
+
+    public function getTsKey()
+    {
+        return "tx_formrelay_pardot";
     }
 }

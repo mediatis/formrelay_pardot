@@ -4,6 +4,8 @@ plugin.tx_formrelay_pardot {
 
   pardotUrl = {$plugin.tx_formrelay_pardot.pardotUrl}
 
+  disableCookieField = {$plugin.tx_formrelay_pardot.disableCookieField}
+
   fields {
     removeFieldNameParts =
 

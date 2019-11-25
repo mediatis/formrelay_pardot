@@ -48,7 +48,7 @@ class Pardot extends \Mediatis\Formrelay\AbstractFormrelayHook implements \Media
     {
         // Save data to be able to read it in getDispatcher()
         $this->data = $data;
-        return parent::processData($data, $formSettings = false);
+        return parent::processData($data, $formSettings);
     }
 
     protected function getDispatcher()

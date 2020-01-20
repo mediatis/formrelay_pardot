@@ -136,7 +136,9 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
 
         /** @var $addressParser Rfc822AddressesParser */
         $addressParser = $this->objectManager->get(Rfc822AddressesParser::class, $emails);
-        $addresses = $addressParser->parseAddressList();
+
+        // Do not validate using Rfc822AddressesParser because it will not work with umlauts
+        $addresses = $addressParser->parseAddressList(null, null, false);
 
         $validEmails = [];
         foreach ($addresses as $address) {

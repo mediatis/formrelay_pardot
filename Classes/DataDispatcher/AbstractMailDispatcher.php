@@ -169,7 +169,7 @@ abstract class AbstractMailDispatcher implements DataDispatcherInterface
     protected function renderEmailAddress($email, $name = ''): string
     {
         if ($name) {
-          return mb_encode_mimeheader($name, 'UTF-8', 'Q').' <$email>';
+          return mb_encode_mimeheader($name, 'UTF-8', 'Q'). " <$email>";
         }
         return $email;
     }

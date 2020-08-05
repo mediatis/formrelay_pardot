@@ -16,7 +16,7 @@ class Pardot extends AbstractDestination
     {
         $cookies = [];
         foreach ($_COOKIE as $key => $value) {
-            if (preg_match('/^visitor_id[0-9]+$/', $key)) {
+            if (preg_match('/^visitor_id[0-9]+(-hash)?$/', $key)) {
                 $cookies[$key] = $value;
             }
         }

@@ -18,10 +18,10 @@ plugin.tx_formrelay_mail{
 	subject = Mail from website
 
 	# cat=plugin.tx_formrelay_mail//6; type=string; label= reply to address
-	replyTo = {email}
+	replyTo =
 
 	# cat=plugin.tx_formrelay_mail//6; type=string; label= reply to name
-	replyToName = {first_name} {last_name}
+	replyToName =
 
 	valueDelimiter = \s=\s
 	lineDelimiter = \n

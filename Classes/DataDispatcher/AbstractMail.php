@@ -69,7 +69,9 @@ abstract class AbstractMail implements \Mediatis\Formrelay\DataDispatcherInterfa
 
         $this->mailMessage->setFrom($from);
         $this->mailMessage->setTo($to);
-        $this->mailMessage->setReplyTo($replyTo);
+        if (!empty($replyTo)) {
+            $this->mailMessage->setReplyTo($replyTo);
+        }
 
         $plainContent = $this->getPlainTextContent($data);
         $htmlContent = $this->getHtmlContent($data);

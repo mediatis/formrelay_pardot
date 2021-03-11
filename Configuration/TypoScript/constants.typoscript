@@ -5,6 +5,12 @@ plugin.tx_formrelay_pardot {
     enabled = 0
 
     # cat=plugin.tx_formrelay_pardot//2; type=string; label= The URL of the pardot formhandler
-    pardotUrl =
+    url =
+
+    # cat=plugin.tx_formrelay_pardot//3; type=string; label= Flag: Ignore empty fields
+    ignoreEmptyFields = 1
+
+    # cat=plugin.tx_formrelay_pardot//4; type=string; label= Flag: pass through all fields (as is)
+    passthroughFields = 0
   }
 }

@@ -11,6 +11,5 @@ class Initialization
     public function initialize(RegistryInterface $registry)
     {
         PardotInitialization::initialize($registry);
-        $registry->deleteRoute(RequestRoute::class);
     }
 }

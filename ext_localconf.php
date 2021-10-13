@@ -1,9 +1,10 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
-(function() {
+(function () {
     // relay initalization
     \Mediatis\Formrelay\Utility\RegistrationUtility::registerInitialization(\Mediatis\FormrelayPardot\Initialization::class);
 

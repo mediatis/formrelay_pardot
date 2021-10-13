@@ -4,7 +4,6 @@ namespace Mediatis\FormrelayPardot;
 
 use FormRelay\Core\Service\RegistryInterface;
 use FormRelay\Pardot\PardotInitialization;
-use FormRelay\Request\Route\RequestRoute;
 
 class Initialization
 {

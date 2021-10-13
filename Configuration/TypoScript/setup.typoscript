@@ -1,54 +1,51 @@
 plugin.tx_formrelay_pardot {
   settings {
     enabled = {$plugin.tx_formrelay_pardot.settings.enabled}
-
-    pardotUrl = {$plugin.tx_formrelay_pardot.settings.pardotUrl}
+    url = {$plugin.tx_formrelay_pardot.settings.url}
 
     gate {
       required = email
     }
 
+    ignoreEmptyFields = {$plugin.tx_formrelay_pardot.settings.ignoreEmptyFields}
+    passthroughFields = {$plugin.tx_formrelay_pardot.settings.passthroughFields}
+
     fields {
-      mapping {
-        # form-field  -> pardot-formhandler-field
+      source.field = source
 
-        source = source
+      salutation.field = salutation
+      first_name.field = first_name
+      last_name.field = last_name
 
-        salutation = salutation
-        first_name = first_name
-        last_name = last_name
+      email.field = email
+      phone.field = phone
+      fax.field = fax
 
-        email = email
-        phone = phone
-        fax = fax
+      company.field = company
+      industry.field = industry
+      department.field = department
+      job_title.field = job_title
+      website.field = website
+      annual_revenue.field = annual_revenue
+      years_in_business.field = years_in_business
+      employees.field = employees
 
-        company = company
-        industry = industry
-        department = department
-        job_title = job_title
-        website = website
-        annual_revenue = annual_revenue
-        years_in_business = years_in_business
-        employees = employees
+      address_one.field = address_one
+      address_two.field = address_two
+      zip.field = zip
+      city.field = city
+      state.field = state
+      country.field = country
+      territory.field = territory
 
-        address_one = address_one
-        address_two = address_two
-        zip = zip
-        city = city
-        state = state
-        country = country
-        territory = territory
+      is_do_not_call.field = is_do_not_call
+      is_do_not_email.field = is_do_not_email
+      opted_out.field = opted_out
 
-        is_do_not_call = is_do_not_call
-        is_do_not_email = is_do_not_email
-        opted_out = opted_out
+      comments.fieldCollector {
+        ignoreIfEmpty = 1
+        unprocessedOnly = 1
       }
-      unmapped = comments
-      unmapped.appendKeyValue = 1
-    }
-
-    values {
-      ignoreIfEmpty = 1
     }
   }
 }

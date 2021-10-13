@@ -1,9 +1,16 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
-(function() {
-    $registry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Mediatis\Formrelay\Service\Registry::class);
-    $registry->registerDestination(\Mediatis\FormrelayPardot\Destination\Pardot::class);
+(function () {
+    // relay initalization
+    \Mediatis\Formrelay\Utility\RegistrationUtility::registerInitialization(\Mediatis\FormrelayPardot\Initialization::class);
+
+    /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $dispatcher */
+    $dispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+
+    // configuration updater
+    \Mediatis\Formrelay\Utility\RegistrationUtility::registerRouteConfigurationUpdater(\Mediatis\FormrelayPardot\Configuration\ConfigurationUpdater::class);
 })();

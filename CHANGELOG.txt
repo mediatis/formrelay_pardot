@@ -1,0 +1,33 @@
+5.0.1
+
+[FEATURE] PHP 8.x support
+
+5.0.0
+
+[TASK] Update for TYPO3 11
+
+[TASK] Drop TYPO3 9 support
+
+4.0.0
+
+[FEATURE] Asynchronous Submissions
+
+3.0.1
+
+[BUGFIX] updated rules for tracking cookies that are sent along with the form data
+
+3.0.0
+
+[TASK] Code Update for TYPO3 v9 and v10 (MEDO-360)
+
+2.0.0
+
+[TASK] code updates according to mediatis/formrelay
+
+1.0.1
+
+[TASK] extension cleanup
+
+1.0.0
+
+[TASK] code base

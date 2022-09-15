@@ -31,7 +31,7 @@
     }
   ],
   "require": {
-    "php": "~7.0 || ~7.1  || ~7.2",
+    "php": "^7.0 || ^8.0",
     "typo3/cms-core": "^10.4 || ^11.4",
     "mediatis/formrelay": "^5.0||^6.0",
     "form-relay/pardot": "^2.0"
